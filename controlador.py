@@ -1,24 +1,24 @@
 class PacienteController:
-    def __init__(self, root):
+    def __init__(self, app):
         self.model = PacienteModel("pacientes.json")
-        self.view = PacienteView(root, self)
+        self.view = PacienteView(self)
         self.usuario = "admin123"
         self.password = "contrasena123"
-        self.view.mostrar_login()
+        self.view.show()
 
     def login(self):
-        usuario = self.view.entry_usuario.get()
-        password = self.view.entry_password.get()
+        usuario = self.view.entry_usuario.text()
+        password = self.view.entry_password.text()
         if usuario == self.usuario and password == self.password:
             self.view.mostrar_main()
         else:
             self.view.mostrar_mensaje("Error", "Usuario o contraseña incorrectos")
 
     def agregar_paciente(self):
-        nombre = self.view.entry_nombre.get()
-        apellido = self.view.entry_apellido.get()
-        edad = self.view.entry_edad.get()
-        identificacion = self.view.entry_identificacion.get()
+        nombre = self.view.entry_nombre.text()
+        apellido = self.view.entry_apellido.text()
+        edad = self.view.entry_edad.text()
+        identificacion = self.view.entry_identificacion.text()
         try:
             self.model.agregar_paciente(nombre, apellido, edad, identificacion)
             self.view.mostrar_mensaje("Éxito", "Paciente agregado exitosamente")
@@ -26,16 +26,16 @@ class PacienteController:
             self.view.mostrar_mensaje("Error", str(e))
 
     def buscar_pacientes(self):
-        query = self.view.entry_busqueda.get()
+        query = self.view.entry_busqueda.text()
         resultados = self.model.buscar_pacientes(query)
-        self.view.lista_pacientes.delete(0, tk.END)
+        self.view.lista_pacientes.clear()
         for paciente in resultados:
-            self.view.lista_pacientes.insert(tk.END, f"{paciente['nombre']} {paciente['apellido']} ({paciente['identificacion']})")
+            self.view.lista_pacientes.addItem(f"{paciente['nombre']} {paciente['apellido']} ({paciente['identificacion']})")
 
     def eliminar_paciente(self):
-        seleccion = self.view.lista_pacientes.curselection()
+        seleccion = self.view.lista_pacientes.currentItem()
         if seleccion:
-            paciente_str = self.view.lista_pacientes.get(seleccion[0])
+            paciente_str = seleccion.text()
             identificacion = paciente_str.split("(")[-1].strip(")")
             self.model.eliminar_paciente(identificacion)
             self.view.mostrar_mensaje("Éxito", "Paciente eliminado exitosamente")
@@ -43,7 +43,9 @@ class PacienteController:
         else:
             self.view.mostrar_mensaje("Error", "Seleccione un paciente para eliminar")
 
+
 if __name__ == "__main__":
-    root = tk.Tk()
-    controller = PacienteController(root)
-    root.mainloop()
+    import sys
+    app = QApplication(sys.argv)
+    controller = PacienteController(app)
+    sys.exit(app.exec_())

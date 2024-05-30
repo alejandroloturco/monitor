@@ -1,70 +1,93 @@
-import tkinter as tk
-from tkinter import messagebox
+from PyQt5.QtWidgets import (
+    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
+    QPushButton, QListWidget, QMessageBox
+)
 
-class PacienteView:
-    def __init__(self, root, controller):
+class PacienteView(QMainWindow):
+    def __init__(self, controller):
+        super().__init__()
         self.controller = controller
-        self.root = root
-        self.root.title("Gestión de Pacientes")
-        self.root.geometry("400x300")
+        self.setWindowTitle("Gestión de Pacientes")
+        self.setGeometry(100, 100, 600, 400)
         
-        self.frame_login = tk.Frame(self.root)
-        self.frame_login.pack()
-
-        self.label_usuario = tk.Label(self.frame_login, text="Usuario:")
-        self.label_usuario.pack()
-        self.entry_usuario = tk.Entry(self.frame_login)
-        self.entry_usuario.pack()
-
-        self.label_password = tk.Label(self.frame_login, text="Contraseña:")
-        self.label_password.pack()
-        self.entry_password = tk.Entry(self.frame_login, show="*")
-        self.entry_password.pack()
-
-        self.button_login = tk.Button(self.frame_login, text="Login", command=self.controller.login)
-        self.button_login.pack()
-
-        self.frame_main = tk.Frame(self.root)
-        self.label_nombre = tk.Label(self.frame_main, text="Nombre:")
-        self.entry_nombre = tk.Entry(self.frame_main)
-        self.label_apellido = tk.Label(self.frame_main, text="Apellido:")
-        self.entry_apellido = tk.Entry(self.frame_main)
-        self.label_edad = tk.Label(self.frame_main, text="Edad:")
-        self.entry_edad = tk.Entry(self.frame_main)
-        self.label_identificacion = tk.Label(self.frame_main, text="Identificación:")
-        self.entry_identificacion = tk.Entry(self.frame_main)
-        self.button_agregar = tk.Button(self.frame_main, text="Agregar Paciente", command=self.controller.agregar_paciente)
+        self.widget = QWidget()
+        self.setCentralWidget(self.widget)
         
-        self.label_nombre.pack()
-        self.entry_nombre.pack()
-        self.label_apellido.pack()
-        self.entry_apellido.pack()
-        self.label_edad.pack()
-        self.entry_edad.pack()
-        self.label_identificacion.pack()
-        self.entry_identificacion.pack()
-        self.button_agregar.pack()
-
-        self.label_busqueda = tk.Label(self.frame_main, text="Buscar Paciente por Nombre:")
-        self.entry_busqueda = tk.Entry(self.frame_main)
-        self.button_buscar = tk.Button(self.frame_main, text="Buscar", command=self.controller.buscar_pacientes)
+        self.layout = QVBoxLayout()
         
-        self.label_busqueda.pack()
-        self.entry_busqueda.pack()
-        self.button_buscar.pack()
-
-        self.lista_pacientes = tk.Listbox(self.frame_main)
-        self.lista_pacientes.pack()
-        self.button_eliminar = tk.Button(self.frame_main, text="Eliminar Paciente", command=self.controller.eliminar_paciente)
-        self.button_eliminar.pack()
+        # Log-in elements
+        self.login_layout = QVBoxLayout()
+        self.label_usuario = QLabel("Usuario:")
+        self.entry_usuario = QLineEdit()
+        self.label_password = QLabel("Contraseña:")
+        self.entry_password = QLineEdit()
+        self.entry_password.setEchoMode(QLineEdit.Password)
+        self.button_login = QPushButton("Login")
+        self.button_login.clicked.connect(self.controller.login)
         
+        self.login_layout.addWidget(self.label_usuario)
+        self.login_layout.addWidget(self.entry_usuario)
+        self.login_layout.addWidget(self.label_password)
+        self.login_layout.addWidget(self.entry_password)
+        self.login_layout.addWidget(self.button_login)
+        
+        # Main elements
+        self.main_layout = QVBoxLayout()
+        self.label_nombre = QLabel("Nombre:")
+        self.entry_nombre = QLineEdit()
+        self.label_apellido = QLabel("Apellido:")
+        self.entry_apellido = QLineEdit()
+        self.label_edad = QLabel("Edad:")
+        self.entry_edad = QLineEdit()
+        self.label_identificacion = QLabel("Identificación:")
+        self.entry_identificacion = QLineEdit()
+        self.button_agregar = QPushButton("Agregar Paciente")
+        self.button_agregar.clicked.connect(self.controller.agregar_paciente)
+        
+        self.main_layout.addWidget(self.label_nombre)
+        self.main_layout.addWidget(self.entry_nombre)
+        self.main_layout.addWidget(self.label_apellido)
+        self.main_layout.addWidget(self.entry_apellido)
+        self.main_layout.addWidget(self.label_edad)
+        self.main_layout.addWidget(self.entry_edad)
+        self.main_layout.addWidget(self.label_identificacion)
+        self.main_layout.addWidget(self.entry_identificacion)
+        self.main_layout.addWidget(self.button_agregar)
+        
+        self.label_busqueda = QLabel("Buscar Paciente por Nombre:")
+        self.entry_busqueda = QLineEdit()
+        self.button_buscar = QPushButton("Buscar")
+        self.button_buscar.clicked.connect(self.controller.buscar_pacientes)
+        
+        self.main_layout.addWidget(self.label_busqueda)
+        self.main_layout.addWidget(self.entry_busqueda)
+        self.main_layout.addWidget(self.button_buscar)
+        
+        self.lista_pacientes = QListWidget()
+        self.button_eliminar = QPushButton("Eliminar Paciente")
+        self.button_eliminar.clicked.connect(self.controller.eliminar_paciente)
+        
+        self.main_layout.addWidget(self.lista_pacientes)
+        self.main_layout.addWidget(self.button_eliminar)
+        
+        self.layout.addLayout(self.login_layout)
+        self.layout.addLayout(self.main_layout)
+        
+        self.widget.setLayout(self.layout)
+        self.mostrar_login()
+    
     def mostrar_login(self):
-        self.frame_login.pack()
-        self.frame_main.pack_forget()
-
+        self.login_layout.setEnabled(True)
+        self.main_layout.setEnabled(False)
+        
     def mostrar_main(self):
-        self.frame_login.pack_forget()
-        self.frame_main.pack()
-
+        self.login_layout.setEnabled(False)
+        self.main_layout.setEnabled(True)
+    
     def mostrar_mensaje(self, titulo, mensaje):
-        messagebox.showinfo(titulo, mensaje)
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+        msg.setWindowTitle(titulo)
+        msg.setText(mensaje)
+        msg.exec_()
+
