@@ -92,6 +92,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def on_regresar_clicked(self):
         print("Regresar button clicked")
+        self.close()
+        self.New_controlador.ventana2()
 
     def on_salir_clicked(self):
         print("Salir button clicked")

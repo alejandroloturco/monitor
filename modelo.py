@@ -31,14 +31,14 @@ class Usuario:
                 #print("Nombre y apellido ya registrado")
                 return True
     
-    def agregar(self,id,nombre,apellido,edad):
+    def agregar(self,nombre,apellido,edad,id):
         if self.validar_paciente(id,nombre,apellido):
             print("Paciente ya registrado")
         else:
             x = self.cargar_pacientes()
             x[str(id)]=[nombre,apellido,edad]
             with open(self._ruta, 'w') as file:
-                json.dump(x, file)
+                json.dump(x, file,indent=4)
 
     def buscar(self,palabra):
         nuevos = []
@@ -56,7 +56,7 @@ class Usuario:
             if i == id:
                 del x[id]
                 with open(self._ruta, 'w') as file:
-                    json.dump(x, file)
+                    json.dump(x, file,indent=4)
                     break
 
 

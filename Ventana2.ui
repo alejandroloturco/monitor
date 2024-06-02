@@ -96,7 +96,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgb
      <string>Patient Manager</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_ingresar">
+   <widget class="QPushButton" name="ingresar100">
     <property name="geometry">
      <rect>
       <x>270</x>

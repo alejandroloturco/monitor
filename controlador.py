@@ -19,5 +19,26 @@ class New_controlador:
             return True
 
     def ventana2(self):
-        self.principal = QTsegundo(self)
+        self.principal = MainWindow2(self)
         self.principal.show()
+
+    def ventana3(self):
+        self.tercera = MainWindow3(self)
+        self.tercera.show()
+    
+    def agregar(self,nombre,apellido,edad,id):
+        self.modelo.agregar(nombre,apellido,edad,id)
+
+    def ventana4(self):
+        self.tercera = MainWindow4(self)
+        self.tercera.show()
+    
+    def buscar(self,pal):
+        return self.modelo.buscar(pal)
+    
+    def eliminar(self,cedula):
+        self.modelo.eliminar(cedula)
+        
+
+
+
