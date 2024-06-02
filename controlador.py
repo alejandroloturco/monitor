@@ -1,51 +1,23 @@
-class PacienteController:
-    def __init__(self, app):
-        self.model = PacienteModel("pacientes.json")
-        self.view = PacienteView(self)
-        self.usuario = "admin123"
-        self.password = "contrasena123"
-        self.view.show()
+from modelo import *
+from vista2 import *
 
-    def login(self):
-        usuario = self.view.entry_usuario.text()
-        password = self.view.entry_password.text()
-        if usuario == self.usuario and password == self.password:
-            self.view.mostrar_main()
-        else:
-            self.view.mostrar_mensaje("Error", "Usuario o contraseña incorrectos")
+class New_controlador:
+    def __init__(self):
+        self.modelo = Usuario()
+        self.aplicacion = QApplication([])
 
-    def agregar_paciente(self):
-        nombre = self.view.entry_nombre.text()
-        apellido = self.view.entry_apellido.text()
-        edad = self.view.entry_edad.text()
-        identificacion = self.view.entry_identificacion.text()
-        try:
-            self.model.agregar_paciente(nombre, apellido, edad, identificacion)
-            self.view.mostrar_mensaje("Éxito", "Paciente agregado exitosamente")
-        except ValueError as e:
-            self.view.mostrar_mensaje("Error", str(e))
+    def inicio(self):
+        self.ventana1()
 
-    def buscar_pacientes(self):
-        query = self.view.entry_busqueda.text()
-        resultados = self.model.buscar_pacientes(query)
-        self.view.lista_pacientes.clear()
-        for paciente in resultados:
-            self.view.lista_pacientes.addItem(f"{paciente['nombre']} {paciente['apellido']} ({paciente['identificacion']})")
+    def ventana1(self):
+        self.log_in = QTprincipal(self)
+        self.log_in.show()
+        self.aplicacion.exec_()
+    
+    def validacion(self,usuario,contraseña):
+        if self.modelo.validacion(usuario,contraseña) == True:
+            return True
 
-    def eliminar_paciente(self):
-        seleccion = self.view.lista_pacientes.currentItem()
-        if seleccion:
-            paciente_str = seleccion.text()
-            identificacion = paciente_str.split("(")[-1].strip(")")
-            self.model.eliminar_paciente(identificacion)
-            self.view.mostrar_mensaje("Éxito", "Paciente eliminado exitosamente")
-            self.buscar_pacientes()
-        else:
-            self.view.mostrar_mensaje("Error", "Seleccione un paciente para eliminar")
-
-
-if __name__ == "__main__":
-    import sys
-    app = QApplication(sys.argv)
-    controller = PacienteController(app)
-    sys.exit(app.exec_())
+    def ventana2(self):
+        self.principal = QTsegundo(self)
+        self.principal.show()

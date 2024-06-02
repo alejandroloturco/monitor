@@ -1,93 +1,129 @@
-from PyQt5.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
-    QPushButton, QListWidget, QMessageBox
-)
+import sys
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 
-class PacienteView(QMainWindow):
-    def __init__(self, controller):
-        super().__init__()
-        self.controller = controller
-        self.setWindowTitle("Gestión de Pacientes")
-        self.setGeometry(100, 100, 600, 400)
-        
-        self.widget = QWidget()
-        self.setCentralWidget(self.widget)
-        
-        self.layout = QVBoxLayout()
-        
-        # Log-in elements
-        self.login_layout = QVBoxLayout()
-        self.label_usuario = QLabel("Usuario:")
-        self.entry_usuario = QLineEdit()
-        self.label_password = QLabel("Contraseña:")
-        self.entry_password = QLineEdit()
-        self.entry_password.setEchoMode(QLineEdit.Password)
-        self.button_login = QPushButton("Login")
-        self.button_login.clicked.connect(self.controller.login)
-        
-        self.login_layout.addWidget(self.label_usuario)
-        self.login_layout.addWidget(self.entry_usuario)
-        self.login_layout.addWidget(self.label_password)
-        self.login_layout.addWidget(self.entry_password)
-        self.login_layout.addWidget(self.button_login)
-        
-        # Main elements
-        self.main_layout = QVBoxLayout()
-        self.label_nombre = QLabel("Nombre:")
-        self.entry_nombre = QLineEdit()
-        self.label_apellido = QLabel("Apellido:")
-        self.entry_apellido = QLineEdit()
-        self.label_edad = QLabel("Edad:")
-        self.entry_edad = QLineEdit()
-        self.label_identificacion = QLabel("Identificación:")
-        self.entry_identificacion = QLineEdit()
-        self.button_agregar = QPushButton("Agregar Paciente")
-        self.button_agregar.clicked.connect(self.controller.agregar_paciente)
-        
-        self.main_layout.addWidget(self.label_nombre)
-        self.main_layout.addWidget(self.entry_nombre)
-        self.main_layout.addWidget(self.label_apellido)
-        self.main_layout.addWidget(self.entry_apellido)
-        self.main_layout.addWidget(self.label_edad)
-        self.main_layout.addWidget(self.entry_edad)
-        self.main_layout.addWidget(self.label_identificacion)
-        self.main_layout.addWidget(self.entry_identificacion)
-        self.main_layout.addWidget(self.button_agregar)
-        
-        self.label_busqueda = QLabel("Buscar Paciente por Nombre:")
-        self.entry_busqueda = QLineEdit()
-        self.button_buscar = QPushButton("Buscar")
-        self.button_buscar.clicked.connect(self.controller.buscar_pacientes)
-        
-        self.main_layout.addWidget(self.label_busqueda)
-        self.main_layout.addWidget(self.entry_busqueda)
-        self.main_layout.addWidget(self.button_buscar)
-        
-        self.lista_pacientes = QListWidget()
-        self.button_eliminar = QPushButton("Eliminar Paciente")
-        self.button_eliminar.clicked.connect(self.controller.eliminar_paciente)
-        
-        self.main_layout.addWidget(self.lista_pacientes)
-        self.main_layout.addWidget(self.button_eliminar)
-        
-        self.layout.addLayout(self.login_layout)
-        self.layout.addLayout(self.main_layout)
-        
-        self.widget.setLayout(self.layout)
-        self.mostrar_login()
-    
-    def mostrar_login(self):
-        self.login_layout.setEnabled(True)
-        self.main_layout.setEnabled(False)
-        
-    def mostrar_main(self):
-        self.login_layout.setEnabled(False)
-        self.main_layout.setEnabled(True)
-    
-    def mostrar_mensaje(self, titulo, mensaje):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Information)
-        msg.setWindowTitle(titulo)
-        msg.setText(mensaje)
-        msg.exec_()
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        if not MainWindow.objectName():
+            MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(800, 600)
+        MainWindow.setStyleSheet("QWidget#centralwidget{\n"
+                                 "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(105, 203, 227, 255), stop:1 rgba(255, 255, 255, 255));}")
+        self.centralwidget = QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.label_3 = QLabel(self.centralwidget)
+        self.label_3.setObjectName("label_3")
+        self.label_3.setGeometry(QRect(170, 210, 81, 21))
+        font = QFont()
+        font.setFamily("Montserrat")
+        font.setPointSize(10)
+        self.label_3.setFont(font)
+        self.label_3.setStyleSheet("QLabel{\n"
+                                   "    color: rgb(255, 255, 255);\n"
+                                   "}")
+        self.label_4 = QLabel(self.centralwidget)
+        self.label_4.setObjectName("label_4")
+        self.label_4.setGeometry(QRect(140, 270, 111, 21))
+        self.label_4.setFont(font)
+        self.label_4.setStyleSheet("QLabel{\n"
+                                   "    color: rgb(255, 255, 255);\n"
+                                   "}")
+        self.lineEdit = QLineEdit(self.centralwidget)
+        self.lineEdit.setObjectName("lineEdit")
+        self.lineEdit.setGeometry(QRect(260, 210, 251, 22))
+        self.lineEdit.setFont(font)
+        self.lineEdit.setStyleSheet("QLineEdit{\n"
+                                    "    border-radius: 10px;\n"
+                                    "    background-color:rgb(237, 254, 255);\n"
+                                    "}")
+        self.lineEdit_2 = QLineEdit(self.centralwidget)
+        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.lineEdit_2.setGeometry(QRect(260, 270, 251, 22))
+        self.lineEdit_2.setFont(font)
+        self.lineEdit_2.setStyleSheet("QLineEdit{\n"
+                                      "    border-radius: 10px;\n"
+                                      "    background-color:rgb(237, 254, 255);\n"
+                                      "}")
+        self.lineEdit_2.setEchoMode(QLineEdit.Password)
+        self.pushButton = QPushButton(self.centralwidget)
+        self.pushButton.setObjectName("pushButton")
+        self.pushButton.setGeometry(QRect(250, 380, 93, 28))
+        font1 = QFont()
+        font1.setFamily("Montserrat")
+        font1.setPointSize(8)
+        self.pushButton.setFont(font1)
+        self.pushButton.setStyleSheet("QPushButton{\n"
+                                      "    border-radius: 10px;\n"
+                                      "    background-color: rgb(0, 180, 216);\n"
+                                      "}")
+        self.pushButton_2 = QPushButton(self.centralwidget)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_2.setGeometry(QRect(410, 380, 93, 28))
+        self.pushButton_2.setFont(font1)
+        self.pushButton_2.setStyleSheet("QPushButton{\n"
+                                        "    border-radius: 10px;\n"
+                                        "    background-color: rgb(0, 180, 216);\n"
+                                        "}")
+        self.label = QLabel(self.centralwidget)
+        self.label.setObjectName("label")
+        self.label.setGeometry(QRect(190, 50, 431, 61))
+        font2 = QFont()
+        font2.setFamily("Montserrat")
+        font2.setPointSize(25)
+        font2.setBold(True)
+        font2.setWeight(75)
+        self.label.setFont(font2)
+        self.label.setStyleSheet("QLabel{\n"
+                                 "    color: rgb(0, 180, 216);\n"
+                                 "}")
+        self.label_2 = QLabel(self.centralwidget)
+        self.label_2.setObjectName("label_2")
+        self.label_2.setGeometry(QRect(300, 320, 181, 21))
+        font3 = QFont()
+        font3.setPointSize(10)
+        self.label_2.setFont(font3)
+        self.label_2.setStyleSheet("QLabel{\n"
+                                   "    color: rgb(0, 119, 182);\n"
+                                   "}")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QMenuBar(MainWindow)
+        self.menubar.setObjectName("menubar")
+        self.menubar.setGeometry(QRect(0, 0, 800, 26))
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(MainWindow)
+        QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.label_3.setText(_translate("MainWindow", "<html><head/><body><p align=\"right\">Usuario:</p></body></html>"))
+        self.label_4.setText(_translate("MainWindow", "<html><head/><body><p align=\"right\">Contraseña:</p></body></html>"))
+        self.pushButton.setText(_translate("MainWindow", "Ingresar"))
+        self.pushButton_2.setText(_translate("MainWindow", "Salir"))
+        self.label.setText(_translate("MainWindow", "Patient Manager"))
+        self.label_2.setText("")
+
+
+class MainWindow(QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        self.setupUi(self)
+        self.pushButton.clicked.connect(self.on_ingresar_clicked)
+        self.pushButton_2.clicked.connect(self.on_salir_clicked)
+
+    def on_ingresar_clicked(self):
+        # Define the action for the "Ingresar" button
+        usuario = self.lineEdit.text()
+        contrasena = self.lineEdit_2.text()
+        print(f"Usuario: {usuario}\nContraseña: {contrasena}")
+
+    def on_salir_clicked(self):
+        # Define the action for the "Salir" button
+        print("Salir button clicked")
+        QApplication.quit()
 
