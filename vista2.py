@@ -154,7 +154,6 @@ class Ui_MainWindow2(object):
         self.pushButton_ingresar.setText(_translate("MainWindow", "Ingresar paciente "))
         self.pushButton_buscar.setText(_translate("MainWindow", "Buscar paciente"))
 
-
 class MainWindow2(QMainWindow, Ui_MainWindow2):
     def __init__(self,controlador):
         super(MainWindow2, self).__init__()
@@ -390,7 +389,6 @@ class Ui_MainWindow4(object):
         self.label.setText(_translate("MainWindow", "Patient Manager"))
         self.pushButton_buscar.setText(_translate("MainWindow", "Buscar"))
         self.label_2.setText(_translate("MainWindow", "Ingrese el nombre:"))
-
 
 class MainWindow4(QMainWindow, Ui_MainWindow4):
     def __init__(self,controlador):
